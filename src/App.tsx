@@ -114,21 +114,23 @@ function EnvelopeScreen({ onOpen }: { onOpen: () => void }) {
   function handleClick() {
     if (phase !== "idle") return;
     setPhase("opening");
-    onOpen();
+    setTimeout(() => {
+      onOpen();
+    }, 1100);
   }
 
   const flapOpen = phase === "opening" || phase === "done";
-  const leaving = phase === "opening" || phase === "done";
+  const leaving = phase === "done";
 
   return (
     <div
       className="fixed inset-0 z-50 flex flex-col items-center justify-center px-6"
       style={{
         background: "linear-gradient(170deg, #060D1E 0%, #050B18 60%, #040810 100%)",
-        opacity: leaving ? 0 : 1,
+        opacity: leaving ? 0 : (flapOpen ? 0 : 1),
         transform: leaving ? "scale(1.08)" : "scale(1)",
-        transition: "opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)",
-        pointerEvents: leaving ? "none" : "auto",
+        transition: "opacity 0.6s ease 0.4s, transform 0.6s ease 0.4s",
+        pointerEvents: flapOpen ? "none" : "auto",
       }}
     >
       {/* Ambient glow behind envelope */}
@@ -143,7 +145,8 @@ function EnvelopeScreen({ onOpen }: { onOpen: () => void }) {
       <p className="animate-fade-in mb-10 text-xs uppercase tracking-[0.4em] font-light"
         style={{
           color: "rgba(201,168,76,0.4)", fontFamily: "'Raleway', sans-serif",
-          animationFillMode: "both", animationDelay: "0.3s"
+          animationFillMode: "both", animationDelay: "0.3s",
+          opacity: flapOpen ? 0 : 1, transition: "opacity 0.5s ease"
         }}>
         Ha llegado una carta para vos...
       </p>
@@ -183,46 +186,104 @@ function EnvelopeScreen({ onOpen }: { onOpen: () => void }) {
 function EnvelopeSVG({ flapOpen }: { flapOpen: boolean }) {
   return (
     <svg viewBox="0 0 420 300" fill="none" className="w-full h-full">
-      {/* Envelope body */}
-      <rect x="4" y="90" width="412" height="206" rx="8"
-        fill="rgba(10,20,44,0.85)" stroke="rgba(201,168,76,0.35)" strokeWidth="1.2" />
+      {/* Soft pink ambient shadow under envelope */}
+      <ellipse cx="210" cy="285" rx="180" ry="12" fill="rgba(244,114,182,0.15)" filter="blur(8px)" />
 
-      {/* Bottom triangle fold */}
+      {/* Envelope body - Outer Shell */}
+      <rect x="4" y="90" width="412" height="206" rx="12"
+        fill="url(#roseGradient)" stroke="rgba(244,114,182,0.4)" strokeWidth="1.5" />
+
+      {/* Dark Inner Pocket (Visible when flap opens for depth effect) */}
+      <rect x="10" y="96" width="400" height="194" rx="8"
+        fill="url(#innerPocketDark)" />
+
+      {/* LETTER / INSIDE CONTENT (Slides up when flap opens) */}
+      <g style={{
+        transform: flapOpen ? "translateY(-55px)" : "translateY(0px)",
+        transition: "transform 1.0s cubic-bezier(0.34, 1.15, 0.64, 1) 0.2s",
+      }}>
+        {/* Paper card body inside */}
+        <rect x="20" y="100" width="380" height="180" rx="8"
+          fill="url(#letterPaperDark)" stroke="rgba(251,191,36,0.3)" strokeWidth="1" />
+
+        {/* Decorative corner lines inside card */}
+        <line x1="36" y1="116" x2="76" y2="116" stroke="rgba(251,191,36,0.5)" strokeWidth="1" />
+        <line x1="344" y1="116" x2="384" y2="116" stroke="rgba(251,191,36,0.5)" strokeWidth="1" />
+
+        {/* "Para vos" text inside envelope */}
+        <text x="210" y="152" textAnchor="middle" fill="#FCE7F3"
+          fontSize="16" fontFamily="'Cinzel', serif" letterSpacing="6" fontWeight="600"
+          style={{ filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.5))" }}>
+          PARA VOS
+        </text>
+
+        {/* Inner gold frame border */}
+        <rect x="28" y="108" width="364" height="164" rx="6"
+          fill="none" stroke="rgba(251,191,36,0.25)" strokeWidth="0.8" strokeDasharray="4 2" />
+      </g>
+
+      {/* Deep Shadow under flap fold */}
+      <path d="M10 96 L210 185 L410 96Z" fill="rgba(0,0,0,0.4)" filter="blur(4px)" pointerEvents="none" />
+
+      {/* Bottom triangle fold (Envelope Front Pocket) */}
       <path d="M4 296 L210 165 L416 296Z"
-        fill="rgba(8,16,36,0.9)" stroke="rgba(201,168,76,0.18)" strokeWidth="0.8" />
+        fill="url(#roseFoldGradient)" stroke="rgba(244,114,182,0.25)" strokeWidth="1" />
 
-      {/* Left fold line */}
-      <path d="M4 90 L210 200" stroke="rgba(201,168,76,0.15)" strokeWidth="0.8" />
-      {/* Right fold line */}
-      <path d="M416 90 L210 200" stroke="rgba(201,168,76,0.15)" strokeWidth="0.8" />
+      {/* Left & Right front fold accent lines */}
+      <path d="M4 90 L210 200" stroke="rgba(251,191,36,0.3)" strokeWidth="0.8" />
+      <path d="M416 90 L210 200" stroke="rgba(251,191,36,0.3)" strokeWidth="0.8" />
 
       {/* Flap — animated */}
       <g style={{
         transformOrigin: "210px 90px",
-        transform: flapOpen ? "rotateX(160deg)" : "rotateX(0deg)",
-        transition: "transform 0.55s cubic-bezier(0.4,0,0.2,1)",
+        transform: flapOpen ? "rotateX(180deg)" : "rotateX(0deg)",
+        opacity: flapOpen ? 0.35 : 1,
+        transition: "transform 1.2s cubic-bezier(0.4,0,0.2,1), opacity 0.8s ease 0.3s",
       }}>
         <path d="M4 90 L210 220 L416 90Z"
-          fill="rgba(12,24,52,0.92)" stroke="rgba(201,168,76,0.35)" strokeWidth="1.2" />
-        {/* Wax seal on flap */}
-        <circle cx="210" cy="168" r="22" fill="rgba(100,15,25,0.85)" stroke="rgba(201,168,76,0.5)" strokeWidth="1.2" />
-        <text x="210" y="174" textAnchor="middle" fill="rgba(201,168,76,0.9)"
-          fontSize="18" fontFamily="'Cinzel', serif" fontWeight="600">✦</text>
+          fill="url(#roseFlapGradient)" stroke="rgba(244,114,182,0.45)" strokeWidth="1.5" />
+
+        {/* Wax seal on flap - Deep Rose Gold */}
+        <circle cx="210" cy="215" r="23" fill="url(#waxSealGradient)" stroke="rgba(251,191,36,0.6)" strokeWidth="1.5" />
+        <circle cx="210" cy="215" r="19" fill="none" stroke="rgba(251,191,36,0.3)" strokeWidth="0.8" strokeDasharray="3 2" />
+        <text x="210" y="221" textAnchor="middle" fill="#FCE7F3"
+          fontSize="18" fontFamily="'Cinzel', serif" fontWeight="600" style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.5))" }}>❤</text>
       </g>
 
-      {/* Decorative corner lines */}
-      <line x1="20" y1="110" x2="60" y2="110" stroke="rgba(201,168,76,0.18)" strokeWidth="0.8" />
-      <line x1="360" y1="110" x2="400" y2="110" stroke="rgba(201,168,76,0.18)" strokeWidth="0.8" />
-
-      {/* "Para ti" text inside envelope (visible under flap) */}
-      <text x="210" y="145" textAnchor="middle" fill="rgba(201,168,76,0.55)"
-        fontSize="13" fontFamily="'Cinzel', serif" letterSpacing="6">
-        PARA TI
-      </text>
-
       {/* Subtle inner glow border */}
-      <rect x="12" y="98" width="396" height="190" rx="5"
-        fill="none" stroke="rgba(201,168,76,0.07)" strokeWidth="1" />
+      <rect x="12" y="98" width="396" height="190" rx="8"
+        fill="none" stroke="rgba(244,114,182,0.2)" strokeWidth="1" />
+
+      {/* Gradients */}
+      <defs>
+        <linearGradient id="letterPaperDark" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#2D0B1C" />
+          <stop offset="100%" stopColor="#1C0511" />
+        </linearGradient>
+        <linearGradient id="innerPocketDark" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#10030A" />
+          <stop offset="60%" stopColor="#1A0511" />
+          <stop offset="100%" stopColor="#250917" />
+        </linearGradient>
+        <linearGradient id="roseGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#4C1D32" />
+          <stop offset="50%" stopColor="#3B1225" />
+          <stop offset="100%" stopColor="#2A0B1A" />
+        </linearGradient>
+        <linearGradient id="roseFoldGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#3B1225" />
+          <stop offset="100%" stopColor="#250917" />
+        </linearGradient>
+        <linearGradient id="roseFlapGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#5C223E" />
+          <stop offset="100%" stopColor="#3B1225" />
+        </linearGradient>
+        <linearGradient id="waxSealGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#BE185D" />
+          <stop offset="50%" stopColor="#9D174D" />
+          <stop offset="100%" stopColor="#831843" />
+        </linearGradient>
+      </defs>
     </svg>
   );
 }
@@ -353,7 +414,7 @@ export default function App() {
 
   function handleOpen() {
     setVisible(true);
-    setTimeout(() => setOpened(true), 750);
+    setTimeout(() => setOpened(true), 700);
   }
 
   function handleAccept() {
@@ -395,11 +456,11 @@ export default function App() {
             <GoldLine className="w-48 mx-auto mb-6" />
             <p className="text-base md:text-lg font-light max-w-sm mx-auto leading-relaxed"
               style={{ color: "rgba(200,210,230,0.6)" }}>
-              Lo que está a punto de descubrir cambiará el curso de su noche.
+              Lo que estas a punto de descubrir cambiará el curso de la noche.
             </p>
             <div className="mt-16 flex justify-center">
               <div className="animate-float flex flex-col items-center gap-2" style={{ color: "rgba(201,168,76,0.3)" }}>
-                <span style={{ fontSize: "10px" }} className="tracking-widest uppercase">Continuar</span>
+                <span style={{ fontSize: "15px" }} className="tracking-widest uppercase">Continuar</span>
                 <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
                   <rect x="5.5" y="1" width="5" height="10" rx="2.5" stroke="currentColor" strokeWidth="1.2" />
                   <circle cx="8" cy="5" r="1.5" fill="currentColor" className="animate-pulse-glow" />
@@ -436,7 +497,7 @@ export default function App() {
             </p>
             <p className="text-xl md:text-2xl font-light leading-relaxed max-w-md"
               style={{ color: "rgba(200,215,240,0.55)", fontFamily: "'Cinzel', serif" }}>
-              Todo lo que necesita saber está en las próximas líneas.
+              Todo lo que necesitas saber está en las próximas líneas.
             </p>
             <GoldLine className="w-32 mx-auto mt-8" />
           </Reveal>
