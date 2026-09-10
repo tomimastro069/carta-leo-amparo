@@ -1,0 +1,10 @@
+{
+  "description": "Delivers an elegant, mysterious single-page invitation for a surprise date with interactive acceptance and customizable details for a unique experience.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
