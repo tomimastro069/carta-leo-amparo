@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import vinylImg from "../public/vinyl.jpg";
 
+
 // ─── Configurable content ──────────────────────────────────────────
 const CITA = {
   fechaTarget: "2026-10-10T21:00:00", // Fecha objetivo para la cuenta regresiva (AAAA-MM-DDTHH:mm:ss)
