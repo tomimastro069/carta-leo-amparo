@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import vinylImg from "./assets/vinyl.jpg";
+const vinylImg = "https://res.cloudinary.com/dwkdclfwe/image/upload/v1789072870/vinyl_p4j95o.jpg";
 
 // ─── Configurable content ──────────────────────────────────────────
 const CITA = {
