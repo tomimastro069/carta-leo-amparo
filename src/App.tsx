@@ -355,7 +355,7 @@ function PhotoFrame({ src, alt }: { src: string; alt: string }) {
 }
 
 function InfoRow({ icon, label, value, detalles }: {
-  icon: string; label: string; value: string; detalles: { label: string; value: string }[];
+  icon: React.ReactNode; label: string; value: string; detalles: { label: string; value: string }[];
 }) {
   const [open, setOpen] = useState(false);
   const isMystery = value === "A definir";
@@ -368,7 +368,7 @@ function InfoRow({ icon, label, value, detalles }: {
         onMouseLeave={e => (e.currentTarget.style.background = open ? "rgba(201,168,76,0.05)" : "transparent")}
       >
         <div className="flex items-center gap-3">
-          <span className="text-base">{icon}</span>
+          <div className="w-5 h-5 flex items-center justify-center shrink-0">{icon}</div>
           <span className="text-xs uppercase tracking-widest font-semibold"
             style={{ color: "rgba(201,168,76,0.55)", fontFamily: "'Raleway', sans-serif" }}>{label}</span>
         </div>
@@ -520,86 +520,132 @@ export default function App() {
             </Reveal>
 
             <Reveal delay={100}>
-              <div className="rounded-2xl px-7 py-10 flex flex-col items-center gap-7"
+              <div className="relative rounded-3xl p-8 md:p-10 flex flex-col items-center gap-7 overflow-hidden"
                 style={{
-                  background: "rgba(10,20,44,0.6)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
-                  border: "1px solid rgba(201,168,76,0.13)",
-                  boxShadow: "0 0 60px rgba(201,168,76,0.05), 0 12px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.04)"
+                  background: "linear-gradient(165deg, rgba(16, 26, 52, 0.75) 0%, rgba(8, 14, 30, 0.85) 100%)",
+                  backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
+                  border: "1px solid rgba(244, 114, 182, 0.18)",
+                  boxShadow: "0 20px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08)"
                 }}>
 
-                <p className="text-xs uppercase tracking-[0.35em] font-light" style={{ color: "rgba(201,168,76,0.45)" }}>
-                  Invitación exclusiva
-                </p>
+                {/* Subtle corner ornament accent */}
+                <div className="absolute top-3 left-3 text-xs opacity-30 select-none pointer-events-none" style={{ color: "#F472B6" }}>✦</div>
+                <div className="absolute top-3 right-3 text-xs opacity-30 select-none pointer-events-none" style={{ color: "#F472B6" }}>✦</div>
+                <div className="absolute bottom-3 left-3 text-xs opacity-30 select-none pointer-events-none" style={{ color: "#F472B6" }}>✦</div>
+                <div className="absolute bottom-3 right-3 text-xs opacity-30 select-none pointer-events-none" style={{ color: "#F472B6" }}>✦</div>
 
-                <h2 className="gold-shimmer text-3xl md:text-4xl font-semibold text-center"
-                  style={{ fontFamily: "'Cinzel', serif" }}>
-                  ¡Cita Sorpresa!
-                </h2>
+                <div className="flex flex-col items-center gap-1.5">
+                  <span className="text-[11px] uppercase tracking-[0.38em] font-medium" style={{ color: "rgba(244, 114, 182, 0.75)" }}>
+                    Misión Confidencial
+                  </span>
+                  <h2 className="text-3xl md:text-4xl font-semibold text-center tracking-wide"
+                    style={{
+                      fontFamily: "'Cinzel', serif",
+                      background: "linear-gradient(135deg, #FFF1F2 0%, #FCE7F3 40%, #F472B6 100%)",
+                      WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+                      filter: "drop-shadow(0 2px 8px rgba(244,114,182,0.25))"
+                    }}>
+                    ¡Cita Sorpresa!
+                  </h2>
+                </div>
 
-                <GoldLine className="w-full" />
+                <GoldLine className="w-full opacity-60" />
 
-                <p className="text-center font-light text-sm md:text-base leading-relaxed"
-                  style={{ color: "rgba(210,215,235,0.7)", maxWidth: "360px" }}>
-                  Usted ha sido seleccionada para tener una cita sorpresa con este individuo.
+                <p className="text-center font-light text-sm md:text-base leading-relaxed tracking-wide"
+                  style={{ color: "rgba(226, 232, 240, 0.82)", maxWidth: "360px" }}>
+                  Estás oficialmente convocada para una cita sorpresa especial.
                 </p>
 
                 <PhotoFrame src={CITA.photoSrc} alt={CITA.photoAlt} />
 
-                <GoldLine className="w-full" />
+                <GoldLine className="w-full opacity-60" />
 
-                <div className="w-full rounded-xl px-5 py-5 flex flex-col gap-4"
-                  style={{ background: "rgba(4,8,18,0.55)", border: "1px solid rgba(201,168,76,0.07)" }}>
-                  <InfoRow icon="📍" label="Lugar" value={CITA.lugar} detalles={CITA.lugarDetalles} />
-                  <GoldLine className="opacity-50" />
-                  <InfoRow icon="🕐" label="Hora" value={CITA.hora} detalles={CITA.horaDetalles} />
-                  <GoldLine className="opacity-50" />
-                  <InfoRow icon="📆" label="Dia" value={CITA.dia} detalles={CITA.diaDetalles} />
+                <div className="w-full rounded-2xl p-5 flex flex-col gap-4"
+                  style={{
+                    background: "rgba(6, 12, 26, 0.65)",
+                    border: "1px solid rgba(244, 114, 182, 0.12)",
+                    boxShadow: "inset 0 2px 6px rgba(0,0,0,0.4)"
+                  }}>
+                  <InfoRow
+                    icon={
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F472B6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="filter drop-shadow(0 0 4px rgba(244,114,182,0.4))">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                      </svg>
+                    }
+                    label="Lugar" value={CITA.lugar} detalles={CITA.lugarDetalles}
+                  />
+                  <GoldLine className="opacity-30" />
+                  <InfoRow
+                    icon={
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F472B6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="filter drop-shadow(0 0 4px rgba(244,114,182,0.4))">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                      </svg>
+                    }
+                    label="Hora" value={CITA.hora} detalles={CITA.horaDetalles}
+                  />
+                  <GoldLine className="opacity-30" />
+                  <InfoRow
+                    icon={
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F472B6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="filter drop-shadow(0 0 4px rgba(244,114,182,0.4))">
+                        <rect x="3" y="4" width="18" height="18" rx="3" ry="3" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                        <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01" />
+                      </svg>
+                    }
+                    label="Día" value={CITA.dia} detalles={CITA.diaDetalles}
+                  />
                 </div>
 
-                <div className="w-full pt-1">
+                <div className="w-full pt-2">
                   {!accepted ? (
                     <button onClick={handleAccept} disabled={animating}
-                      className="w-full rounded-xl py-4 px-6 text-sm tracking-widest uppercase font-semibold"
+                      className="w-full rounded-2xl py-4 px-6 text-xs md:text-sm tracking-[0.25em] uppercase font-semibold"
                       style={{
-                        background: "linear-gradient(135deg, rgba(201,168,76,0.13), rgba(201,168,76,0.06))",
-                        border: "1px solid rgba(201,168,76,0.32)", color: "#D4B96A",
-                        transition: "all 0.3s ease", fontFamily: "'Raleway', sans-serif",
+                        background: "linear-gradient(135deg, rgba(244, 114, 182, 0.22), rgba(190, 24, 93, 0.28))",
+                        border: "1px solid rgba(244, 114, 182, 0.45)", color: "#FCE7F3",
+                        boxShadow: "0 8px 24px rgba(190, 24, 93, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15)",
+                        transition: "all 0.35s ease", fontFamily: "'Raleway', sans-serif",
                         cursor: animating ? "default" : "pointer"
                       }}
                       onMouseEnter={e => {
                         if (!animating) {
                           const el = e.currentTarget;
-                          el.style.boxShadow = "0 0 24px rgba(201,168,76,0.18), 0 4px 16px rgba(0,0,0,0.3)";
-                          el.style.transform = "translateY(-1px)";
-                          el.style.background = "linear-gradient(135deg, rgba(201,168,76,0.22), rgba(201,168,76,0.1))";
+                          el.style.boxShadow = "0 12px 32px rgba(244, 114, 182, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25)";
+                          el.style.transform = "translateY(-2px)";
+                          el.style.background = "linear-gradient(135deg, rgba(244, 114, 182, 0.32), rgba(190, 24, 93, 0.4))";
                         }
                       }}
                       onMouseLeave={e => {
-                        const el = e.currentTarget; el.style.boxShadow = "none";
+                        const el = e.currentTarget;
+                        el.style.boxShadow = "0 8px 24px rgba(190, 24, 93, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15)";
                         el.style.transform = "translateY(0)";
-                        el.style.background = "linear-gradient(135deg, rgba(201,168,76,0.13), rgba(201,168,76,0.06))";
+                        el.style.background = "linear-gradient(135deg, rgba(244, 114, 182, 0.22), rgba(190, 24, 93, 0.28))";
                       }}>
-                      {animating ? <span style={{ opacity: 0.5 }}>Procesando...</span> : "¿Aceptas la misión?"}
+                      {animating ? <span style={{ opacity: 0.7 }}>Procesando...</span> : "¿Aceptas la misión?"}
                     </button>
                   ) : (
-                    <div className="w-full rounded-xl py-4 px-6 text-center"
+                    <div className="w-full rounded-2xl py-4 px-6 text-center"
                       style={{
-                        background: "rgba(4,8,18,0.5)", border: "1px solid rgba(201,168,76,0.15)",
+                        background: "rgba(6, 12, 26, 0.7)", border: "1px solid rgba(244, 114, 182, 0.25)",
                         animation: "reveal 0.5s ease forwards"
                       }}>
-                      <p className="text-sm leading-relaxed font-light"
-                        style={{ color: "rgba(201,168,76,0.75)", fontFamily: "'Raleway', sans-serif" }}>
-                        <span style={{ color: "rgba(201,168,76,0.4)" }}>✦</span>
+                      <p className="text-xs md:text-sm leading-relaxed font-light"
+                        style={{ color: "#FCE7F3", fontFamily: "'Raleway', sans-serif" }}>
+                        <span style={{ color: "rgba(244, 114, 182, 0.6)" }}>✦</span>
                         {"  "}Decisión registrada. Ahora solo falta descubrir cuándo y dónde...{"  "}
-                        <span style={{ color: "rgba(201,168,76,0.4)" }}>✦</span>
+                        <span style={{ color: "rgba(244, 114, 182, 0.6)" }}>✦</span>
                       </p>
                     </div>
                   )}
                 </div>
 
                 <div className="flex flex-col items-center gap-2 pt-1">
-                  <GoldLine className="w-20" />
-                  <p className="text-xs tracking-[0.25em] uppercase font-light" style={{ color: "rgba(201,168,76,0.22)" }}>
+                  <GoldLine className="w-20 opacity-40" />
+                  <p className="text-[10px] tracking-[0.3em] uppercase font-light" style={{ color: "rgba(244, 114, 182, 0.35)" }}>
                     ✦ &nbsp; Confidencial &nbsp; ✦
                   </p>
                 </div>
