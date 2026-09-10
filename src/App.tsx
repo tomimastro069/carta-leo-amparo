@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import vinylImg from "../public/vinyl.jpg";
 
 // ─── Configurable content ──────────────────────────────────────────
 const CITA = {
@@ -516,7 +517,7 @@ function MusicPlayer({
         title={playing ? "Pausar música" : "Reproducir canción"}
       >
         <img
-          src="/vinyl.jpg"
+          src={vinylImg}
           alt="Happy Together – The Turtles"
           style={{
             width: "60px", height: "60px",
