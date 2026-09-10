@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 
 // ─── Configurable content ──────────────────────────────────────────
 const CITA = {
+  fechaTarget: "2026-10-10T21:00:00", // Fecha objetivo para la cuenta regresiva (AAAA-MM-DDTHH:mm:ss)
+  musicaSrc: "https://res.cloudinary.com/dwkdclfwe/video/upload/v1789070320/WhatsApp_Audio_2026-09-10_at_16.55.58_guwmfp.mp3",
   lugar: "",
   lugarDetalles: [
     { label: "Dirección", value: "Esa noche lo sabras" },
@@ -107,12 +109,18 @@ function Background({ stars, roses }: { stars: Star[]; roses: Rose[] }) {
 }
 
 // ── Envelope intro screen ──────────────────────────────────────────
-function EnvelopeScreen({ onOpen }: { onOpen: () => void }) {
+function EnvelopeScreen({ onOpen, onFirstTouch }: { onOpen: () => void; onFirstTouch: () => void }) {
   const [phase, setPhase] = useState<"idle" | "opening" | "done">("idle");
   const [hovered, setHovered] = useState(false);
+  const touchedRef = useRef(false);
 
   function handleClick() {
     if (phase !== "idle") return;
+    // Disparar audio en el primer toque (requerido por autoplay policy)
+    if (!touchedRef.current) {
+      touchedRef.current = true;
+      onFirstTouch();
+    }
     setPhase("opening");
     setTimeout(() => {
       onOpen();
@@ -402,6 +410,138 @@ function InfoRow({ icon, label, value, detalles }: {
     </div>
   );
 }
+function CountdownTimer({ targetDate }: { targetDate: string }) {
+  const [timeLeft, setTimeLeft] = useState({ dias: 0, horas: 0, minutos: 0, segundos: 0 });
+
+  useEffect(() => {
+    function calculate() {
+      const difference = +new Date(targetDate) - +new Date();
+      if (difference > 0) {
+        setTimeLeft({
+          dias: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          horas: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutos: Math.floor((difference / 1000 / 60) % 60),
+          segundos: Math.floor((difference / 1000) % 60),
+        });
+      }
+    }
+    calculate();
+    const timer = setInterval(calculate, 1000);
+    return () => clearInterval(timer);
+  }, [targetDate]);
+
+  return (
+    <div className="grid grid-cols-2 gap-3 md:gap-4 text-center max-w-sm mx-auto">
+      {[
+        { label: "Días", val: timeLeft.dias },
+        { label: "Horas", val: timeLeft.horas }
+      ].map((item, idx) => (
+        <div key={idx} className="rounded-2xl p-3 md:p-4 flex flex-col items-center justify-center"
+          style={{
+            background: "rgba(10, 20, 44, 0.65)",
+            border: "1px solid rgba(244, 114, 182, 0.2)",
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.4)",
+            backdropFilter: "blur(10px)"
+          }}>
+          <span className="text-2xl md:text-3xl font-semibold gold-shimmer" style={{ fontFamily: "'Cinzel', serif" }}>
+            {String(item.val).padStart(2, "0")}
+          </span>
+          <span className="text-[10px] md:text-xs uppercase tracking-widest mt-1 opacity-60 font-light" style={{ color: "#FCE7F3" }}>
+            {item.label}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function MusicPlayer({
+  audioRef,
+  playing,
+  setPlaying,
+}: {
+  audioRef: React.MutableRefObject<HTMLAudioElement | null>;
+  playing: boolean;
+  setPlaying: (v: boolean) => void;
+}) {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  function togglePlay() {
+    if (!audioRef.current) {
+      inputRef.current?.click();
+      return;
+    }
+    if (playing) {
+      audioRef.current.pause();
+      setPlaying(false);
+    } else {
+      audioRef.current.play().then(() => setPlaying(true)).catch(() => { });
+    }
+  }
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      if (audioRef.current) audioRef.current.pause();
+      audioRef.current = new Audio(url);
+      audioRef.current.loop = true;
+      audioRef.current.play().then(() => setPlaying(true)).catch(() => { });
+    }
+  }
+
+  return (
+    <>
+      <input
+        ref={inputRef}
+        type="file"
+        accept="audio/*"
+        className="hidden"
+        onChange={handleFileChange}
+      />
+      <button
+        onClick={togglePlay}
+        className="fixed bottom-6 right-6 z-40 rounded-full flex items-center justify-center transition-all duration-300"
+        style={{
+          width: "60px", height: "60px", padding: 0,
+          background: "transparent",
+          border: "none",
+          boxShadow: playing
+            ? "0 0 0 2px rgba(244,114,182,0.5), 0 8px 32px rgba(244,114,182,0.25)"
+            : "0 4px 20px rgba(0,0,0,0.5)",
+          borderRadius: "50%",
+          transition: "box-shadow 0.4s ease",
+        }}
+        aria-label="Reproducir música de ambiente"
+        title={playing ? "Pausar música" : "Reproducir canción"}
+      >
+        <img
+          src="/vinyl.jpg"
+          alt="Happy Together – The Turtles"
+          style={{
+            width: "60px", height: "60px",
+            borderRadius: "50%",
+            objectFit: "cover",
+            animation: playing ? "spin 2.5s linear infinite" : "none",
+            display: "block",
+          }}
+        />
+        {/* Pause overlay shown when paused */}
+        {!playing && (
+          <div style={{
+            position: "absolute", inset: 0, borderRadius: "50%",
+            background: "rgba(6,12,26,0.55)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FCE7F3" strokeWidth="2" strokeLinecap="round">
+              <polygon points="5 3 19 12 5 21 5 3" fill="#FCE7F3" stroke="none" />
+            </svg>
+          </div>
+        )}
+      </button>
+    </>
+  );
+}
 
 // ── Main ────────────────────────────────────────────────────────────
 export default function App() {
@@ -411,6 +551,22 @@ export default function App() {
   const [animating, setAnimating] = useState(false);
   const [stars] = useState(() => generateStars(90));
   const [roses] = useState(() => generateRoses(20));
+
+  // ── Audio (levantado aquí para compartir con EnvelopeScreen y MusicPlayer)
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [playing, setPlaying] = useState(false);
+
+  useEffect(() => {
+    if (CITA.musicaSrc) {
+      audioRef.current = new Audio(CITA.musicaSrc);
+      audioRef.current.loop = true;
+    }
+  }, []);
+
+  function handleFirstTouch() {
+    if (!audioRef.current) return;
+    audioRef.current.play().then(() => setPlaying(true)).catch(() => { });
+  }
 
   function handleOpen() {
     setVisible(true);
@@ -488,15 +644,18 @@ export default function App() {
           </Reveal>
         </section>
 
-        {/* ── DIVIDER ── */}
-        <section className="relative z-10 flex flex-col items-center py-20 px-6 text-center">
+        {/* ── DIVIDER & COUNTDOWN ── */}
+        <section className="relative z-10 flex flex-col items-center py-16 px-6 text-center">
           <Reveal>
             <GoldLine className="w-32 mx-auto mb-8" />
-            <p className="text-xs uppercase tracking-[0.4em] font-light mb-4" style={{ color: "rgba(201,168,76,0.35)" }}>
-              Un destino aguarda
+            <p className="text-xs uppercase tracking-[0.4em] font-light mb-4" style={{ color: "rgba(244, 114, 182, 0.6)" }}>
+              Tiempo restante para la misión
             </p>
+            <div className="mb-8">
+              <CountdownTimer targetDate={CITA.fechaTarget} />
+            </div>
             <p className="text-xl md:text-2xl font-light leading-relaxed max-w-md"
-              style={{ color: "rgba(200,215,240,0.55)", fontFamily: "'Cinzel', serif" }}>
+              style={{ color: "rgba(200,215,240,0.7)", fontFamily: "'Cinzel', serif" }}>
               Todo lo que necesitas saber está en las próximas líneas.
             </p>
             <GoldLine className="w-32 mx-auto mt-8" />
@@ -658,8 +817,11 @@ export default function App() {
         </section>
       </div>
 
+      {/* Floating Music Player */}
+      <MusicPlayer audioRef={audioRef} playing={playing} setPlaying={setPlaying} />
+
       {/* Envelope overlay — unmounts after opened */}
-      {!opened && <EnvelopeScreen onOpen={handleOpen} />}
+      {!opened && <EnvelopeScreen onOpen={handleOpen} onFirstTouch={handleFirstTouch} />}
     </div>
   );
 }
