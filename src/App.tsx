@@ -667,87 +667,93 @@ export default function App() {
           <div className="w-full" style={{ maxWidth: "520px" }}>
             <Reveal>
               <div className="flex flex-col items-center mb-8">
-                <div className="animate-float mb-4" style={{ color: "rgba(201,168,76,0.5)" }}>
+                <div className="animate-float mb-4" style={{ color: "rgba(196,146,42,0.6)" }}>
                   <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
                     <path d="M14 3 L14 25 M3 14 L25 14 M6 6 L22 22 M22 6 L6 22"
                       stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" />
                     <circle cx="14" cy="14" r="3" stroke="currentColor" strokeWidth="0.9" fill="none" />
                   </svg>
                 </div>
-                <GoldLine className="w-40" />
+                <div style={{ width: "160px", height: "1px", background: "linear-gradient(90deg, transparent, rgba(139,26,42,0.7), rgba(196,146,42,0.5), rgba(139,26,42,0.7), transparent)" }} />
               </div>
             </Reveal>
 
             <Reveal delay={100}>
               <div className="relative rounded-3xl p-8 md:p-10 flex flex-col items-center gap-7 overflow-hidden"
                 style={{
-                  background: "linear-gradient(165deg, rgba(16, 26, 52, 0.75) 0%, rgba(8, 14, 30, 0.85) 100%)",
+                  background: "linear-gradient(165deg, #1C0508 0%, #2A0810 40%, #1A0408 100%)",
                   backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
-                  border: "1px solid rgba(244, 114, 182, 0.18)",
-                  boxShadow: "0 20px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08)"
+                  border: "1px solid rgba(139, 26, 42, 0.45)",
+                  boxShadow: "0 20px 60px rgba(0,0,0,0.8), 0 0 80px rgba(100,8,20,0.25), inset 0 1px 0 rgba(196,146,42,0.12)"
                 }}>
 
-                {/* Subtle corner ornament accent */}
-                <div className="absolute top-3 left-3 text-xs opacity-30 select-none pointer-events-none" style={{ color: "#F472B6" }}>✦</div>
-                <div className="absolute top-3 right-3 text-xs opacity-30 select-none pointer-events-none" style={{ color: "#F472B6" }}>✦</div>
-                <div className="absolute bottom-3 left-3 text-xs opacity-30 select-none pointer-events-none" style={{ color: "#F472B6" }}>✦</div>
-                <div className="absolute bottom-3 right-3 text-xs opacity-30 select-none pointer-events-none" style={{ color: "#F472B6" }}>✦</div>
+                {/* Warm ambient glow */}
+                <div className="absolute inset-0 pointer-events-none rounded-3xl" style={{
+                  background: "radial-gradient(ellipse at 50% 0%, rgba(196,146,42,0.08) 0%, transparent 65%)"
+                }} />
+
+                {/* Corner ornaments — amber */}
+                <div className="absolute top-3 left-3 text-xs opacity-40 select-none pointer-events-none" style={{ color: "#C4922A" }}>✦</div>
+                <div className="absolute top-3 right-3 text-xs opacity-40 select-none pointer-events-none" style={{ color: "#C4922A" }}>✦</div>
+                <div className="absolute bottom-3 left-3 text-xs opacity-40 select-none pointer-events-none" style={{ color: "#C4922A" }}>✦</div>
+                <div className="absolute bottom-3 right-3 text-xs opacity-40 select-none pointer-events-none" style={{ color: "#C4922A" }}>✦</div>
 
                 <div className="flex flex-col items-center gap-1.5">
-                  <span className="text-[11px] uppercase tracking-[0.38em] font-medium" style={{ color: "rgba(244, 114, 182, 0.75)" }}>
+                  <span className="text-[11px] uppercase tracking-[0.38em] font-medium" style={{ color: "rgba(196,122,133,0.85)" }}>
                     Misión Confidencial
                   </span>
                   <h2 className="text-3xl md:text-4xl font-semibold text-center tracking-wide"
                     style={{
                       fontFamily: "'Cinzel', serif",
-                      background: "linear-gradient(135deg, #FFF1F2 0%, #FCE7F3 40%, #F472B6 100%)",
+                      background: "linear-gradient(135deg, #E8C48A 0%, #C4922A 35%, #8B1A2A 65%, #C47A85 100%)",
                       WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-                      filter: "drop-shadow(0 2px 8px rgba(244,114,182,0.25))"
+                      filter: "drop-shadow(0 2px 8px rgba(139,26,42,0.4))"
                     }}>
                     ¡Cita Sorpresa!
                   </h2>
                 </div>
 
-                <GoldLine className="w-full opacity-60" />
+                {/* Divider — ruby/amber */}
+                <div className="w-full" style={{ height: "1px", background: "linear-gradient(90deg, transparent, rgba(139,26,42,0.7), rgba(196,146,42,0.5), rgba(139,26,42,0.7), transparent)" }} />
 
                 <p className="text-center font-light text-sm md:text-base leading-relaxed tracking-wide"
-                  style={{ color: "rgba(226, 232, 240, 0.82)", maxWidth: "360px" }}>
+                  style={{ color: "rgba(230, 210, 185, 0.78)", maxWidth: "360px" }}>
                   Estás oficialmente convocada para una cita sorpresa especial.
                 </p>
 
                 <PhotoFrame src={CITA.photoSrc} alt={CITA.photoAlt} />
 
-                <GoldLine className="w-full opacity-60" />
+                <div className="w-full" style={{ height: "1px", background: "linear-gradient(90deg, transparent, rgba(139,26,42,0.7), rgba(196,146,42,0.5), rgba(139,26,42,0.7), transparent)" }} />
 
                 <div className="w-full rounded-2xl p-5 flex flex-col gap-4"
                   style={{
-                    background: "rgba(6, 12, 26, 0.65)",
-                    border: "1px solid rgba(244, 114, 182, 0.12)",
-                    boxShadow: "inset 0 2px 6px rgba(0,0,0,0.4)"
+                    background: "rgba(10, 2, 4, 0.7)",
+                    border: "1px solid rgba(139, 26, 42, 0.22)",
+                    boxShadow: "inset 0 2px 6px rgba(0,0,0,0.5)"
                   }}>
                   <InfoRow
                     icon={
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F472B6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="filter drop-shadow(0 0 4px rgba(244,114,182,0.4))">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C4922A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                         <circle cx="12" cy="10" r="3" />
                       </svg>
                     }
                     label="Lugar" value={CITA.lugar} detalles={CITA.lugarDetalles}
                   />
-                  <GoldLine className="opacity-30" />
+                  <div style={{ height: "1px", background: "linear-gradient(90deg, transparent, rgba(139,26,42,0.4), transparent)" }} />
                   <InfoRow
                     icon={
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F472B6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="filter drop-shadow(0 0 4px rgba(244,114,182,0.4))">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C4922A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="10" />
                         <polyline points="12 6 12 12 16 14" />
                       </svg>
                     }
                     label="Hora" value={CITA.hora} detalles={CITA.horaDetalles}
                   />
-                  <GoldLine className="opacity-30" />
+                  <div style={{ height: "1px", background: "linear-gradient(90deg, transparent, rgba(139,26,42,0.4), transparent)" }} />
                   <InfoRow
                     icon={
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F472B6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="filter drop-shadow(0 0 4px rgba(244,114,182,0.4))">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C4922A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                         <rect x="3" y="4" width="18" height="18" rx="3" ry="3" />
                         <line x1="16" y1="2" x2="16" y2="6" />
                         <line x1="8" y1="2" x2="8" y2="6" />
@@ -764,47 +770,47 @@ export default function App() {
                     <button onClick={handleAccept} disabled={animating}
                       className="w-full rounded-2xl py-4 px-6 text-xs md:text-sm tracking-[0.25em] uppercase font-semibold"
                       style={{
-                        background: "linear-gradient(135deg, rgba(244, 114, 182, 0.22), rgba(190, 24, 93, 0.28))",
-                        border: "1px solid rgba(244, 114, 182, 0.45)", color: "#FCE7F3",
-                        boxShadow: "0 8px 24px rgba(190, 24, 93, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15)",
+                        background: "linear-gradient(135deg, rgba(139,26,42,0.45), rgba(90,10,20,0.6))",
+                        border: "1px solid rgba(139,26,42,0.65)", color: "#E8C48A",
+                        boxShadow: "0 8px 24px rgba(90,10,20,0.4), inset 0 1px 0 rgba(196,146,42,0.2)",
                         transition: "all 0.35s ease", fontFamily: "'Raleway', sans-serif",
                         cursor: animating ? "default" : "pointer"
                       }}
                       onMouseEnter={e => {
                         if (!animating) {
                           const el = e.currentTarget;
-                          el.style.boxShadow = "0 12px 32px rgba(244, 114, 182, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25)";
+                          el.style.boxShadow = "0 12px 32px rgba(139,26,42,0.55), inset 0 1px 0 rgba(196,146,42,0.3)";
                           el.style.transform = "translateY(-2px)";
-                          el.style.background = "linear-gradient(135deg, rgba(244, 114, 182, 0.32), rgba(190, 24, 93, 0.4))";
+                          el.style.background = "linear-gradient(135deg, rgba(139,26,42,0.65), rgba(90,10,20,0.75))";
                         }
                       }}
                       onMouseLeave={e => {
                         const el = e.currentTarget;
-                        el.style.boxShadow = "0 8px 24px rgba(190, 24, 93, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15)";
+                        el.style.boxShadow = "0 8px 24px rgba(90,10,20,0.4), inset 0 1px 0 rgba(196,146,42,0.2)";
                         el.style.transform = "translateY(0)";
-                        el.style.background = "linear-gradient(135deg, rgba(244, 114, 182, 0.22), rgba(190, 24, 93, 0.28))";
+                        el.style.background = "linear-gradient(135deg, rgba(139,26,42,0.45), rgba(90,10,20,0.6))";
                       }}>
                       {animating ? <span style={{ opacity: 0.7 }}>Procesando...</span> : "¿Aceptas la misión?"}
                     </button>
                   ) : (
                     <div className="w-full rounded-2xl py-4 px-6 text-center"
                       style={{
-                        background: "rgba(6, 12, 26, 0.7)", border: "1px solid rgba(244, 114, 182, 0.25)",
+                        background: "rgba(10, 2, 4, 0.8)", border: "1px solid rgba(139,26,42,0.3)",
                         animation: "reveal 0.5s ease forwards"
                       }}>
                       <p className="text-xs md:text-sm leading-relaxed font-light"
-                        style={{ color: "#FCE7F3", fontFamily: "'Raleway', sans-serif" }}>
-                        <span style={{ color: "rgba(244, 114, 182, 0.6)" }}>✦</span>
+                        style={{ color: "#E8C48A", fontFamily: "'Raleway', sans-serif" }}>
+                        <span style={{ color: "rgba(196,122,133,0.7)" }}>✦</span>
                         {"  "}Decisión registrada. Ahora solo falta descubrir cuándo y dónde...{"  "}
-                        <span style={{ color: "rgba(244, 114, 182, 0.6)" }}>✦</span>
+                        <span style={{ color: "rgba(196,122,133,0.7)" }}>✦</span>
                       </p>
                     </div>
                   )}
                 </div>
 
                 <div className="flex flex-col items-center gap-2 pt-1">
-                  <GoldLine className="w-20 opacity-40" />
-                  <p className="text-[10px] tracking-[0.3em] uppercase font-light" style={{ color: "rgba(244, 114, 182, 0.35)" }}>
+                  <div style={{ width: "80px", height: "1px", background: "linear-gradient(90deg, transparent, rgba(196,146,42,0.35), transparent)" }} />
+                  <p className="text-[10px] tracking-[0.3em] uppercase font-light" style={{ color: "rgba(196,122,133,0.4)" }}>
                     ✦ &nbsp; Confidencial &nbsp; ✦
                   </p>
                 </div>
