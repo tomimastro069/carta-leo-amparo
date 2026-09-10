@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-const vinylImg = "/vinyl.jpg";
+import vinylImg from "./public/vinyl.jpg";
 
 // ─── Configurable content ──────────────────────────────────────────
 const CITA = {
