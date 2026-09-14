@@ -8,14 +8,13 @@ const CITA = {
   lugar: "",
   lugarDetalles: [
     { label: "Dirección", value: "lo descubriras" },
-    { label: "Ambiente", value: "Íntimo y reservado" },
+    { label: "Ambiente", value: "Agradable y despejado" },
     { label: "Dress code", value: "linda como siempre" },
   ],
   hora: "",
   horaDetalles: [
-    { label: "Duración", value: "Todo el dia" },
-    { label: "Punto de encuentro", value: "A revelar" },
-    { label: "Llegada", value: "Puntualidad requerida" },
+    { label: "Duración", value: "Todo lo que quieras" },
+    { label: "Punto de encuentro", value: "Tu casa" },
   ],
   dia: "",
   diaDetalles: [
