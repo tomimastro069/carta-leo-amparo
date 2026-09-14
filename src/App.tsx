@@ -7,9 +7,9 @@ const CITA = {
   musicaSrc: "https://res.cloudinary.com/dwkdclfwe/video/upload/v1789070320/WhatsApp_Audio_2026-09-10_at_16.55.58_guwmfp.mp3",
   lugar: "",
   lugarDetalles: [
-    { label: "Dirección", value: "lo descubriras" },
+    { label: "Dirección", value: "Lo descubriras" },
     { label: "Ambiente", value: "Agradable y despejado" },
-    { label: "Dress code", value: "linda como siempre" },
+    { label: "Dress code", value: "Linda como siempre" },
   ],
   hora: "",
   horaDetalles: [
