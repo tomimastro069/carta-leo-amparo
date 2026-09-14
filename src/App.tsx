@@ -613,7 +613,7 @@ export default function App() {
             <GoldLine className="w-48 mx-auto mb-6" />
             <p className="text-base md:text-lg font-light max-w-sm mx-auto leading-relaxed"
               style={{ color: "rgba(200,210,230,0.6)" }}>
-              Lo que estas a punto de descubrir cambiará el curso de la noche.
+              Lo que estas a punto de descubrir cambiará el curso del dia.
             </p>
             <div className="mt-16 flex justify-center">
               <div className="animate-float flex flex-col items-center gap-2" style={{ color: "rgba(201,168,76,0.3)" }}>
