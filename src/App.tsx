@@ -3,24 +3,24 @@ const vinylImg = "https://res.cloudinary.com/dwkdclfwe/image/upload/v1789072870/
 
 // ─── Configurable content ──────────────────────────────────────────
 const CITA = {
-  fechaTarget: "2026-10-10T21:00:00", // Fecha objetivo para la cuenta regresiva (AAAA-MM-DDTHH:mm:ss)
+  fechaTarget: "2026-9-18T21:00:00", // Fecha objetivo para la cuenta regresiva (AAAA-MM-DDTHH:mm:ss)
   musicaSrc: "https://res.cloudinary.com/dwkdclfwe/video/upload/v1789070320/WhatsApp_Audio_2026-09-10_at_16.55.58_guwmfp.mp3",
   lugar: "",
   lugarDetalles: [
-    { label: "Dirección", value: "Esa noche lo sabras" },
+    { label: "Dirección", value: "lo descubriras" },
     { label: "Ambiente", value: "Íntimo y reservado" },
     { label: "Dress code", value: "linda como siempre" },
   ],
   hora: "",
   horaDetalles: [
-    { label: "Duración", value: "Toda la noche" },
+    { label: "Duración", value: "Todo el dia" },
     { label: "Punto de encuentro", value: "A revelar" },
     { label: "Llegada", value: "Puntualidad requerida" },
   ],
   dia: "",
   diaDetalles: [
-    { label: "Día", value: "10" },
-    { label: "Mes", value: "Octubre" },
+    { label: "Día", value: "18" },
+    { label: "Mes", value: "Septiembre" },
   ],
   photoSrc: "https://res.cloudinary.com/dwkdclfwe/image/upload/v1789066471/WhatsApp_Image_2026-09-10_at_15.13.36_ygh5be.jpg",
   photoAlt: "El individuo en cuestión",
@@ -28,7 +28,7 @@ const CITA = {
 
 const WHATSAPP = {
   numero: "5492613679985",
-  mensaje: "Acepto la misión..",
+  mensaje: "Acepto la misión...",
 };
 
 const PHOTOS = [
