@@ -3,7 +3,7 @@ const vinylImg = "https://res.cloudinary.com/dwkdclfwe/image/upload/v1789072870/
 
 // ─── Configurable content ──────────────────────────────────────────
 const CITA = {
-  fechaTarget: "2026-9-18T21:00:00", // Fecha objetivo para la cuenta regresiva (AAAA-MM-DDTHH:mm:ss)
+  fechaTarget: "2026-09-18T21:00:00", // Fecha objetivo para la cuenta regresiva (AAAA-MM-DDTHH:mm:ss)
   musicaSrc: "https://res.cloudinary.com/dwkdclfwe/video/upload/v1789070320/WhatsApp_Audio_2026-09-10_at_16.55.58_guwmfp.mp3",
   lugar: "",
   lugarDetalles: [
@@ -432,22 +432,24 @@ function CountdownTimer({ targetDate }: { targetDate: string }) {
   }, [targetDate]);
 
   return (
-    <div className="grid grid-cols-2 gap-3 md:gap-4 text-center max-w-sm mx-auto">
+    <div className="grid grid-cols-4 gap-2 md:gap-4 text-center max-w-md mx-auto">
       {[
         { label: "Días", val: timeLeft.dias },
-        { label: "Horas", val: timeLeft.horas }
+        { label: "Horas", val: timeLeft.horas },
+        { label: "Min", val: timeLeft.minutos },
+        { label: "Seg", val: timeLeft.segundos }
       ].map((item, idx) => (
-        <div key={idx} className="rounded-2xl p-3 md:p-4 flex flex-col items-center justify-center"
+        <div key={idx} className="rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center"
           style={{
             background: "rgba(10, 20, 44, 0.65)",
             border: "1px solid rgba(244, 114, 182, 0.2)",
             boxShadow: "0 4px 20px rgba(0, 0, 0, 0.4)",
             backdropFilter: "blur(10px)"
           }}>
-          <span className="text-2xl md:text-3xl font-semibold gold-shimmer" style={{ fontFamily: "'Cinzel', serif" }}>
+          <span className="text-xl md:text-3xl font-semibold gold-shimmer" style={{ fontFamily: "'Cinzel', serif" }}>
             {String(item.val).padStart(2, "0")}
           </span>
-          <span className="text-[10px] md:text-xs uppercase tracking-widest mt-1 opacity-60 font-light" style={{ color: "#FCE7F3" }}>
+          <span className="text-[9px] md:text-xs uppercase tracking-widest mt-1 opacity-60 font-light" style={{ color: "#FCE7F3" }}>
             {item.label}
           </span>
         </div>
